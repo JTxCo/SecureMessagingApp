@@ -1,0 +1,15 @@
+{
+  "name": "securemessagingapp",
+  "version": "1.0.0",
+  "description": "this is a secure peer to peer mobile messaging app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "SecureMessagingApp"
+  },
+  "author": "Joel Carlson and Davis Lapkin",
+  "license": "ISC"
+}
