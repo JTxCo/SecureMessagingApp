@@ -1,6 +1,6 @@
 # React Native Peer-to-Peer Chat Application
 
-This project implements a peer-to-peer chat application, developed with React Native, and designed for optimized security and user interaction. It adopts cryptographic techniques to safeguard confidentiality and ensure message integrity. The application allows users to register, log in, engage in private or group chats, and modify their personal settings.
+This final project for our Object Orientated Design class and implements a peer-to-peer chat application, developed with React Native, and designed for optimized security and user interaction. It adopts cryptographic techniques to safeguard confidentiality and ensure message integrity. The application allows users to register, log in, engage in private or group chats, and modify their personal settings.
 
 ## Table of Contents
 -  [Architecture](#architecture)
