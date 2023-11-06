@@ -31,25 +31,16 @@ On the other side, AsyncStorage, a simplified key-value storage system, manages 
 
 ## Design Patterns
 
-The application incorporates the following design patterns:
+1. **Model-View-Controller (MVC)**
+- _Model_: Adopts a Strategy Pattern using SQLite and AsyncStorage as interchangeable DB systems based on data complexity.
+- _View_: Applies a Composite Pattern, allowing various UI screens to be uniformly managed.
+- _Controller_: Manages user interaction and navigation logic, and employs a Facade Pattern with the 'Security' class to simplify access to complex security tasks.
 
-1. **MVC (Model-View-Controller)**
-    - Model: Uses SQLite and AsyncStorage databases.
-    - View: Handles UI with React Native.
-    - Controller: Manages user interaction logic with Redux.
+2. **Observer Pattern**: Broadly utilized throughout the system via various `Observer` interfaces, facilitating automatic updates in dependent components when the state of observed objects changes.
 
-2. **Module**: This pattern is implied by the modular architecture of the application.
+3. **State Pattern**: Used for tracking the status of messages. Each message state (draft, sent, delivered, read, error) prompts a different corresponding behavior in the application.
 
-3. **Observer (Pub-Sub)**: Implicitly used in Redux. When an application state changes, subscriber components are notified to update the UI.
-
-4. **Singleton**: If a database connection instance is created once and shared across the application, then it uses the Singleton pattern.
-
-5. **Strategy**: The use of different databases (SQLite and AsyncStorage) based on operational complexity and data access frequency follows the Strategy pattern.
-
-6. **Decorator**: Enhancing component functionality (like adding additional props or state) uses a type of Decorator design pattern. In React Native, this is accomplished using Higher Order Components (HOC).
-
-7. **State Pattern**: Employed in tracking message statuses. Each message state (draft, sent, delivered, read, error) prompts a different corresponding behavior in the application.
-
+4. **Singleton Pattern**: Ensures only one instance of the SQLite and AsyncStorage databases is created and shared across the application.
 
 
 ## Authors
