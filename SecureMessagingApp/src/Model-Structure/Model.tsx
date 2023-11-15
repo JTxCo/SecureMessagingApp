@@ -1,7 +1,7 @@
 // Import the MessageEncryption class
 import {MessageEncryption} from './Security';
 
-// generateSecretKey();
+generateSecretKey();
 const messageEncryption = new MessageEncryption('secretKey');
 const encryptedMessage: string =
   messageEncryption.encryptMessage('Hello World!');
