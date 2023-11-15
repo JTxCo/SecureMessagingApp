@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-    id        Int       @id @default(autoincrement())
-    username  String
-    publicKey String
-    chats     Chat[]
-    contacts  Contact[]
-    messages  Message[]  @relation("messagesOfUser") @ignore
+    id         Int       @id @default(autoincrement())
+    username   String
+    hashedPassword String
+    publicKey  String
+    chats      Chat[]
+    contacts   Contact[]
+    messages   Message[]  @relation("messagesOfUser") @ignore
 }
+
 
 model Contact {
     id          Int       @id @default(autoincrement())
