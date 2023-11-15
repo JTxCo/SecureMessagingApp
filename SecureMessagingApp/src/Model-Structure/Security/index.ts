@@ -1,2 +1,2 @@
 export * from './MessageEncryption';
-// export * from './Security;
+export * from './Security';
