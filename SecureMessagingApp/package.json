@@ -10,6 +10,7 @@
     "test": "jest",
     "begin": "tsc && node dist/src/security/MessageEncryption.js"
   },
+  "type": "module",
   "dependencies": {
     "@noble/curves": "^1.2.0",
     "crypto-js": "^4.2.0",
