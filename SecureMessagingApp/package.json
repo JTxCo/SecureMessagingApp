@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "begin": "tsc && node /src/Model-Structure/Model.mjs"
+    "begin": "tsc && node /src/Model-Structure/Model.js"
   },
   "type": "module",
   "dependencies": {
@@ -44,6 +44,7 @@
     "jest": "^29.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "npm": "^10.2.3",
+    "npm-force-resolutions": "^0.0.10",
     "prettier": "^3.1.0",
     "prisma": "^5.6.0",
     "react-native": "^0.72.7",
