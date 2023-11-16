@@ -1,7 +1,6 @@
 import { getUserChoice, input } from './commandLine.mjs'; // Import the function from commandLine.js
 
 const userInfo = [];
-const logInAttemptInfo = [];
 
 console.log('Welcome to the messaging app!');
 
