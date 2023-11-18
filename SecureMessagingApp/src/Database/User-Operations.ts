@@ -46,9 +46,9 @@ export async function checkPassword(username: string, password: string): Promise
   }
 }
 
-export async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
-  const testPassword = await hashPassword(password);
-  return testPassword == hashedPassword;
+export async function comparePasswords(inputPassword: string, hashedPassword: string): Promise<boolean> {
+  const hashedInputPassword = await hashPassword(inputPassword);
+  return hashedInputPassword == hashedPassword;
 }
 
 export async function getUserFromDatabase(id: number): Promise<User | null> {
