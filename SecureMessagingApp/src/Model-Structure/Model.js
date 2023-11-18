@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,30 +35,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-Promise.resolve().then(function () { return require('./Security'); }).then(function (_a) {
-    var MessageEncryption = _a.MessageEncryption, generateSecretKey = _a.generateSecretKey, getSecretKey = _a.getSecretKey;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        var secretKey, messageEncryption, encryptedMessage, decryptedMessage;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, generateSecretKey()];
-                case 1:
-                    _a.sent();
-                    return [4 /*yield*/, getSecretKey()];
-                case 2:
-                    secretKey = _a.sent();
-                    if (secretKey === null) {
-                        console.error('No secret key found. Please generate a new one.');
-                        return [2 /*return*/];
-                    }
-                    messageEncryption = new MessageEncryption(secretKey);
-                    encryptedMessage = messageEncryption.encryptMessage('Hello World!');
-                    console.log(encryptedMessage);
-                    decryptedMessage = messageEncryption.decryptMessage(encryptedMessage);
-                    console.log(decryptedMessage);
+Object.defineProperty(exports, "__esModule", { value: true });
+var Security_1 = require("./Security");
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var secretKey, messageEncryption, encryptedMessage, decryptedMessage;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, Security_1.generateSecretKey)()];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, (0, Security_1.getSecretKey)()];
+            case 2:
+                secretKey = _a.sent();
+                if (secretKey === null) {
+                    console.error('No secret key found. Please generate a new one.');
                     return [2 /*return*/];
-            }
-        });
-    }); })();
-});
+                }
+                messageEncryption = new Security_1.MessageEncryption(secretKey);
+                encryptedMessage = messageEncryption.encryptMessage('Hello World!');
+                console.log(encryptedMessage);
+                decryptedMessage = messageEncryption.decryptMessage(encryptedMessage);
+                console.log(decryptedMessage);
+                return [2 /*return*/];
+        }
+    });
+}); })();

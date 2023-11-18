@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "begin": "tsc && node /src/Model-Structure/Model.js"
+    "begin": "tsc && node dist/Model-Structure/Model.js",
+    "mjs-begin": "tsc && find dist -name '*.js' -exec rename 's/\\.js$/\\.mjs/' '{}' \\; && node dist/Model-Structure/Model.mjs"
   },
   "type": "module",
   "dependencies": {
