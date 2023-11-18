@@ -1,12 +1,12 @@
 import { getUserChoice, input } from './commandLine.mjs'; // Import the function from commandLine.js
 
 const userInfo = [];
-const logInAttemptInfo = [];
+
+console.log('Welcome to the messaging app!');
 
 
 function logIn() {
     function askForChoice() {
-      console.log('Welcome to the messaging app!');
       console.log('Please select an option:');
       console.log('1. Register');
       console.log('2. Log in');
@@ -38,7 +38,7 @@ function logIn() {
                   getUserChoice();
                 } else {
                   console.log("Incorrect username or password.");
-                  input.close();
+                  askForChoice();
                 }
                 //askForChoice(); // Ask for another choice
               });
