@@ -1,0 +1,29 @@
+import { Contact } from './Contact';
+import { SQLiteDBAccess } from './SqliteDBAccess';
+
+const sqlite = SQLiteDBAccess.getInstance();
+const prisma = sqlite.getPrismaClient();
+/**
+ * id: number;
+userName : string;
+firstName : string;
+lastName : string;
+userId: number
+
+ */
+
+export async function createContact(id: number, userName: string, firstName: string, lastName: string, userId: number): Promise<Contact> {
+  return new Contact(id, userName, firstName, lastName, userId)};
+
+
+export function saveContactToDatabase(contact: Contact): Promise<void> {
+  return prisma.contact.create({
+    data: {
+      id: contact.id,
+      userName: contact.userName,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      userId: contact.userId
+    },
+  });
+}
