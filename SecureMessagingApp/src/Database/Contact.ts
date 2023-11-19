@@ -3,7 +3,8 @@ id: number;
 userName : string;
 firstName : string;
 lastName : string;
-userId: number
+publicKey : number;
+userId: number;
 
 /**
  * Constucts a new Contact instance
@@ -13,14 +14,16 @@ userId: number
  * @param firstName : The first name of the contact
  * @param lastName : The last name of the contact
  * @param userId : The unique identifier of the user who created the contact, only used in assoiation 
+ * 
  */
 
 
-constructor(id: number, userName : string, firstName : string, lastName : string, userId: number){
+constructor(id: number, userName : string, firstName : string, lastName : string, publicKey : number, userId: number){
     this.id = id;
     this.userName = userName;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.publicKey = publicKey;
     this.userId = userId;
 }
 }

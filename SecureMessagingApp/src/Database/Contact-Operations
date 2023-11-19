@@ -8,12 +8,13 @@ const prisma = sqlite.getPrismaClient();
 userName : string;
 firstName : string;
 lastName : string;
+publicKey : number
 userId: number
 
  */
 
-export async function createContact(id: number, userName: string, firstName: string, lastName: string, userId: number): Promise<Contact> {
-  return new Contact(id, userName, firstName, lastName, userId)};
+export async function createContact(id: number, userName: string, firstName: string, lastName: string, publicKey: number, userId: number): Promise<Contact> {
+  return new Contact(id, userName, firstName, lastName, publicKey, userId)};
 
 
 export function saveContactToDatabase(contact: Contact): Promise<void> {
@@ -23,7 +24,33 @@ export function saveContactToDatabase(contact: Contact): Promise<void> {
       userName: contact.userName,
       firstName: contact.firstName,
       lastName: contact.lastName,
+      publicKey: contact.publicKey,
       userId: contact.userId
     },
   });
+}
+
+export async function updateContactInDatabase(contact: Contact): Promise<void>{
+  await prisma.user.update({
+    where: { id: contact.id },
+    data: {
+      userName : contact.userName,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      publicKey : contact.publicKey,
+      userId : contact.userId
+    },
+  });
+}
+
+export async function getUserFromDatabase(id: number): Promise<Contact | null> {
+  const contact = await prisma.contact.findFirst({ where: { id: id } });
+  if (contact) {
+    return new Contact(contact.id, contact?.userName, contact.firstName, contact.lastName, contact.publicKey, contact.userId)};  } else {
+    return null;
+  }
+}
+
+export async function getAllContactsFromDatabase(): Promise<Contact[]>{
+  return prisma.contact.findMany();
 }
