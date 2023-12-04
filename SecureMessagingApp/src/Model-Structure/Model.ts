@@ -1,8 +1,7 @@
-import {MessageEncryption, generateSecretKey, getSecretKey} from './Security';
-
+import { generateSecretKey, } from './Security';
+import { MessageEncryption } from './Security/MessageEncryption';
 (async () => {
-  await generateSecretKey();
-  const secretKey = await getSecretKey();
+  const secretKey = await generateSecretKey();
 
   if (secretKey === null) {
     console.error('No secret key found. Please generate a new one.');
