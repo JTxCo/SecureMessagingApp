@@ -1,3 +1,17 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./Output",
+    "strict": false,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["react", "react-native", "jest"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/Model-Structure/**/*.ts", "src/Model-Structure/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

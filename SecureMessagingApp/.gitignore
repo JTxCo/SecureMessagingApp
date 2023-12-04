@@ -1,7 +1,8 @@
 # OSX
 #
 .DS_Store
-
+.env
+.watchman-cookie-*
 # Xcode
 #
 build/
@@ -64,3 +65,8 @@ yarn-error.log
 
 # testing
 /coverage
+
+# Expo
+.expo
+dist/
+web-build/
