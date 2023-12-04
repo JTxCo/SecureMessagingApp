@@ -1,11 +1,12 @@
 import readline from 'readline';
+import {newContact, findContact} from './contacts.mjs';
+
 
 const input = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-const contacts = [];
 const phoneNumbersSeen = [];
 
 function isPhoneNumberUnique(phone) {
@@ -31,10 +32,11 @@ function getUserChoice() {
               askForChoice();
             } else {
               phoneNumbersSeen.push(phone);
-              const newUser = { name, phone };
-              contacts.push(newUser);
-              console.log(contacts);
-              askForChoice(); // Ask for another choice
+              newContact(name, phone);
+              //const newUser = { name, phone }; 
+              //contacts.push(newUser); //moved to contacts.mjs
+              //console.log(contacts);
+              askForChoice(); //Ask for another choice
             }
           });
         });
@@ -51,7 +53,10 @@ function getUserChoice() {
             }
           } else {
             // It's not a phone number, check if it's a name
-            const matchingUser = contacts.find(user => user.name === recipient);
+
+            //const matchingUser = contacts.find(user => user.name === recipient); //moved to contacts.mjs
+            const matchingUser = findContact(recipient);//TODO: fix this so that users are found
+
             if (matchingUser) {
               console.log("New chat made with: " + matchingUser.name);
             } else {
@@ -79,7 +84,7 @@ function getUserChoice() {
                     console.log("Phone number already exists. Cannot add the same phone number to the group chat.");
                   }
                 } else {
-                  const matchingUser = contacts.find(user => user.name === inputData);
+                  const matchingUser = findContact();
                   if (matchingUser) {
                     participants.push(inputData);
                     count++;
@@ -95,7 +100,7 @@ function getUserChoice() {
                   const phoneNumbers = participants.filter(participant => /^\d+$/.test(participant));
 
                   const matchingUsers = names
-                    .map(name => contacts.find(user => user.name === name))
+                    .map(name => findContact())
                     .filter(user => user !== undefined);
 
                   console.log("Group chat participants:");

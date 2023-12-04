@@ -1,0 +1,21 @@
+Task: Send Message
+
+Unit tests: 
+    Given we create a messaging service, when we call the function to send a message, then the message is sent to the recipient
+    //To get test to compile
+        //Create the function to send a message
+        //Type out a message to be sent to another user
+    //To get test to pass    
+        //Send the message
+        //Return true when the message was sent successfully
+
+
+    
+    
+    sender = user1
+    recipient = user2
+    message = "message to be sent"
+
+    sentMessage = messageService(sender, recipient, message) 
+
+    assertEqual(sentMessage, "message sent")
