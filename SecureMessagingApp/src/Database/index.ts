@@ -16,4 +16,13 @@ import { MessageStatusFactory } from "./MessageStatus/MessageStatusFactory";
 export {MessageStatusFactory} from "./MessageStatus/MessageStatusFactory";
 import { SQLiteDBAccess } from "./SqliteDBAccess";
 export {SQLiteDBAccess} from "./SqliteDBAccess";
-
+import { User } from "./User";
+export {User} from "./User";
+import { Contact } from "./Contact";
+export {Contact} from "./Contact";
+import {IndividualChat } from "./IndividualChat";
+export {IndividualChat} from "./IndividualChat";
+import { GroupChat } from "./GroupChat";
+export {GroupChat} from "./GroupChat";
+import { Chat } from "./Chat";
+export type {Chat} from "./Chat";
