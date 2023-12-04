@@ -5,7 +5,6 @@ import * as MessageStatus from "./MessageStatus";
 import { SQLiteDBAccess } from "./SqliteDBAccess";
 import { createUser, getUserFromDatabase } from "./User-Operations";
 import { getContactFromDatabaseByID } from "./Contact-Operations";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
