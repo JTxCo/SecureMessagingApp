@@ -1,6 +1,4 @@
-import { MessageStatus } from "./MessageStatus";
-import { Message } from "./Message";
-import {SentStatus} from "./SentStatus";
+import { MessageStatus, Message, SentStatus } from "..";
 export class DraftStatus implements MessageStatus {
     onEnter(message: Message) {
         message.status = new DraftStatus();

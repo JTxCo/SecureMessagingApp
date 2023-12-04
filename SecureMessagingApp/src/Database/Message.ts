@@ -3,6 +3,7 @@ import { User } from './User'
 import { Contact } from './Contact'
 import { MessageStatus } from './MessageStatus'
 export class Message {
+    //Each message is stored with an ID, text, date, which chat it was int, what status it has, if the user sent it, or if a contact sent it
     id: number
     text: string
     timestamp: Date
@@ -22,7 +23,6 @@ export class Message {
         this.chatId = chatId
         this.status = status
         this.chat = chat
-
         if (senderUser) this.senderUser = senderUser, this.senderUserId = senderUser.id
         if (senderContact) this.senderContact = senderContact, this.senderContactId = senderContact.id
 }  

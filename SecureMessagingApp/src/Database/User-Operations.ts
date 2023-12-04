@@ -58,7 +58,7 @@ export async function getUserFromDatabase(id: number): Promise<User | null> {
     } else {
       return null;
     }
-  }
+}
 
 export function getAllUsersFromDatabase(): Promise<User[]> {
   return prisma.user.findMany();
