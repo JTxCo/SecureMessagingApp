@@ -1,12 +1,12 @@
-import { MessageStatus, Message } from "..";
+import { MessageStatus, Message, DeliveredStatus } from "..";
 
 export class SentStatus implements MessageStatus {
     onEnter(message: Message) {
         message.status = new SentStatus();
     }   
     onExit(Message: Message): MessageStatus {
-        if () {
-            return new SentStatus();
+        if (Message.readyToSend) {
+            return new DeliveredStatus();
         }
         
     }

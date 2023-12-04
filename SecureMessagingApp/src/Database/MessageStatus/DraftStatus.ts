@@ -4,7 +4,7 @@ export class DraftStatus implements MessageStatus {
         message.status = new DraftStatus();
     }   
     onExit(Message: Message): MessageStatus {
-        if () {
+        if (Message.readyToSend) {
             return new SentStatus();
         }
         

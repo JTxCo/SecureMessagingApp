@@ -5,7 +5,7 @@ export class DeliveredStatus implements MessageStatus {
         message.status = new DeliveredStatus();
     }   
     onExit(Message: Message): MessageStatus {
-        if () {
+        if (Message.readyToSend){
             return new ReadStatus();
         }
         

@@ -16,7 +16,9 @@ export async function createMessage(id: number, text: string, timestamp: Date, c
   }
   return new Message(id, text, timestamp, chatId, status, senderContact);
 }
-
+export function setReadyToSend(message: Message): void {
+  message.readyToSend = true;
+}
 
 export async function saveMessageToDatabase(message: Message): Promise<void> {
   if(message.senderUser) {
