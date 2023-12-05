@@ -1,5 +1,7 @@
-import {Chat, IndividualChat, GroupChat, SQLiteDBAccess, User, Contact, Message } from './';
-
+import {Chat, IndividualChat, GroupChat, SQLiteDBAccess, User, Contact,Message, createMessageStatus } from './';
+import { createMessage, setReadyToSend } from './Message-Operations';
+import { getUserFromDatabasByID } from './User-Operations';
+import { getContactFromDatabaseByID } from './Contact-Operations';
 
 
 const sqlite = SQLiteDBAccess.getInstance();
@@ -73,7 +75,20 @@ export async function getChatFromDatabaseByChatId(id: number) : Promise<Chat | n
   if (!chat) {
     return null;
   }
-
-  return createChat(chat.id, chat.name, chat.userId, chat.user, chat.contacts, chat.messages);
+  const messages = [];
+  for (let msg of chat.messages) {
+    const message = await createMessage(
+      msg.id, 
+      msg.text, 
+      msg.timestamp, 
+      createMessageStatus(msg.status), 
+      msg.chatId, 
+      msg.readyToSend, 
+      await getUserFromDatabasByID(msg.senderUserId),
+      await getContactFromDatabaseByID(msg.senderContactId)
+    );
+    messages.push(message);
+  }
+  return createChat(chat.id, chat.name, chat.userId, chat.user, chat.contacts, messages);
 }
 
