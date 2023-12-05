@@ -8,7 +8,7 @@ export class SentStatus implements MessageStatus {
         if (Message.readyToSend) {
             return new DeliveredStatus();
         }
-        
+       return Message.status;
     }
     getStatus() {
         return "sent";

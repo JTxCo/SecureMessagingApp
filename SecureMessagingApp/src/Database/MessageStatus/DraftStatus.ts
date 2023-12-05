@@ -7,7 +7,7 @@ export class DraftStatus implements MessageStatus {
         if (Message.readyToSend) {
             return new SentStatus();
         }
-        
+       return Message.status;
     }
     getStatus() {
         return "draft";

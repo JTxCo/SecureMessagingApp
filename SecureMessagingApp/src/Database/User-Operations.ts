@@ -51,12 +51,12 @@ export async function comparePasswords(inputPassword: string, hashedPassword: st
   return hashedInputPassword == hashedPassword;
 }
 
-export async function getUserFromDatabasByID(id: number): Promise<User | null> {
+export async function getUserFromDatabasByID(id: number): Promise<User | undefined> {
     const user = await prisma.user.findFirst({ where: { id: id } });
     if (user) {
       return new User(user.id, user.username, user.hashedPassword, user.publicKey, user.firstName, user.lastName);
     } else {
-      return null;
+      return undefined;
     }
 }
 

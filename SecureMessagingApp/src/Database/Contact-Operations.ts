@@ -20,12 +20,12 @@ export async function saveContactToDatabase(contact: Contact): Promise<void> {
       },
     });
 }
-export async function getContactFromDatabaseByID(id: number): Promise<Contact | null> {
+export async function getContactFromDatabaseByID(id: number): Promise<Contact | undefined> {
     const contact = await prisma.contact.findUnique({ where: { id: id } });
     if (contact) {
       return new Contact(contact.id, contact.userName, contact.firstName, contact.lastName, contact.publicKey, contact.userId);
     } else {
-      return null;
+      return undefined;
     }
   }
 export async function getContactFromDatabaseByUserName(userName: string): Promise<Contact | null> {

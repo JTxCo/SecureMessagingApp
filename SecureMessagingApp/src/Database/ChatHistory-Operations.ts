@@ -13,18 +13,35 @@ export function createChatHistory(chat: Chat): ChatHistory {
 async function fetchMessages(): Promise<Message[]> {
     const messages = await prisma.message.findMany();
     return Promise.all(
-        messages.map(async (message) => createMessage(
-            message.id, 
-            message.text, 
-            message.timestamp, 
-            createMessageStatus(message.status), 
-            message.chatId, 
-            message.readyToSend, 
-            await getUserFromDatabasByID(message.senderUserId),
-            await getContactFromDatabaseByID(message.senderContactId)
-        ))
+        messages.map(async (message) => {
+
+            // Initialize as undefined
+            let user, contact = undefined;
+
+            // Fetch only if ID is not null
+            if (message.senderUserId !== null) {
+                user = await getUserFromDatabasByID(message.senderUserId);
+            }
+
+            // Fetch only if ID is not null
+            if (message.senderContactId !== null) {
+                contact = await getContactFromDatabaseByID(message.senderContactId);
+            }
+            
+            return createMessage(
+                message.id, 
+                message.text, 
+                message.timestamp, 
+                createMessageStatus(message.status), 
+                message.chatId, 
+                message.readyToSend, 
+                user, // undefined if senderUserId was null
+                contact // undefined if senderContactId was null
+            );
+        })
     );
 }
+
 
 //does not need to save to DB because it is just part of Chat that holds previous messages
 

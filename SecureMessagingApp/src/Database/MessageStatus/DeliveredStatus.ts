@@ -8,7 +8,7 @@ export class DeliveredStatus implements MessageStatus {
         if (Message.readyToSend){
             return new ReadStatus();
         }
-        
+       return Message.status;
     }
     getStatus() {
         return "delivered";

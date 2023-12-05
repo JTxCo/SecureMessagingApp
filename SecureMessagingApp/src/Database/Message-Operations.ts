@@ -7,9 +7,9 @@ const prisma = sqlite.getPrismaClient();
 //might optimize this function and remove the if satement
 export async function createMessage(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number, readyToSend: boolean, senderUser?: User, senderContact?: Contact ): Promise<Message> {
   if(senderUser) {
-    return new Message(id, text, timestamp, status, chatID,readyToSend, senderUser, null);
+    return new Message(id, text, timestamp, status, chatID,readyToSend, senderUser, undefined);
   }
-  return new Message(id, text, timestamp, status, chatID ,readyToSend, null, senderContact);
+  return new Message(id, text, timestamp, status, chatID ,readyToSend, undefined, senderContact);
 }
 export function setReadyToSend(message: Message): void {
   message.readyToSend = true;
@@ -41,65 +41,66 @@ export async function saveMessageToDatabase(message: Message): Promise<void> {
     });
   }
 }
+async function getUserAndContactFromMessage(message: {senderUserId: number | null, senderContactId: number | null}): Promise<{ user: User | undefined, contact: Contact | undefined }> {
+  let senderUser: User | undefined;
+  let senderContact: Contact | undefined;
+
+  if (message.senderUserId !== null) {
+    senderUser = await getUserFromDatabasByID(message.senderUserId);
+  }
+
+  if (message.senderContactId !== null) {
+    senderContact = await getContactFromDatabaseByID(message.senderContactId);
+  }
+
+  return { user: senderUser, contact: senderContact };
+}
 
 //This funcrtion uses the User/Contact operations to create a user/contact object from the database, and then creates a message object from the database with associated into
-//  if one does not exist it is null
+//  if one does not exist it is null 
 export async function getMessageFromDatabase(id: number): Promise<Message | null> {
   const message = await prisma.message.findUnique({
     where: { id: id },
   });
 
   if (message) {
-    let senderUser: User | undefined;
-    let senderContact: Contact | undefined;
-    if(message.senderUserId) {
-      senderUser = await getUserFromDatabasByID(message.senderUserId);
-    }
-    else {
-      senderContact = await getContactFromDatabaseByID(message.senderContactId);
-    }
+    const { user: senderUser, contact: senderContact } = await getUserAndContactFromMessage(message);
+
     return createMessage(
-        message.id,
-        message.text,
-        new Date(message.timestamp),
-        createMessageStatus(message.status),
-        message.chatId,
-        message.readyToSend,
-        senderUser,
-        senderContact
+      message.id,
+      message.text,
+      new Date(message.timestamp),
+      createMessageStatus(message.status),
+      message.chatId,
+      message.readyToSend,
+      senderUser, 
+      senderContact
     );
-  } else {
-    return null;
-  }
+  } 
+
+  return null;
 }
+
 
   //this will return every message froma chatId in the database. It will create a message object for each message in the database, and then return an array of messages
   export async function getMessagesFromDatabaseByChatId(chatId: number): Promise<Message[]> {
     const messages = await prisma.message.findMany({ where: { chatId: chatId } });
+    
     return Promise.all(messages.map(async (message) => {
-      
-      let senderUser;
-      let senderContact;
-  
-      if (message.senderUserId) {
-        senderUser = await getUserFromDatabasByID(message.senderUserId); 
-      }
-      if (message.senderContactId) {
-        senderContact = await getContactFromDatabaseByID(message.senderContactId);  
-      }
-  
+      const { user: senderUser, contact: senderContact } = await getUserAndContactFromMessage(message);
+    
       return createMessage(
         message.id,
         message.text,
         message.timestamp,
         createMessageStatus(message.status),
         message.chatId,
+        message.readyToSend,
         senderUser,
         senderContact
       );
     }));
   }
-    
   
 
   export async function updateMessageInDatabase(message: Message): Promise<void> {
