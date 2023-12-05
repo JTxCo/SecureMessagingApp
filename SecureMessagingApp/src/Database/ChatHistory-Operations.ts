@@ -26,4 +26,8 @@ async function fetchMessages(): Promise<Message[]> {
     );
 }
 
+//does not need to save to DB because it is just part of Chat that holds previous messages
+
+    
+
   
