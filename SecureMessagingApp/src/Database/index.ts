@@ -26,3 +26,5 @@ import { GroupChat } from "./GroupChat";
 export {GroupChat} from "./GroupChat";
 import { Chat } from "./Chat";
 export type {Chat} from "./Chat";
+import { ChatHistory } from "./ChatHistory";
+export {ChatHistory} from "./ChatHistory";

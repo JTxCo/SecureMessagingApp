@@ -16,11 +16,11 @@ export class Message {
     senderContact?: Contact
     readyToSend: boolean = false
 
-    constructor(id: number, text: string, timestamp: Date, chatId: number, status: MessageStatus, chat: Chat, senderUser?: User, senderContact?: Contact) {
+    constructor(id: number, text: string, timestamp: Date, status: MessageStatus, chat: Chat, senderUser?: User, senderContact?: Contact) {
         this.id = id
         this.text = text
         this.timestamp = timestamp
-        this.chatId = chatId
+        this.chatId = chat.id
         this.status = status
         this.chat = chat
         if (senderUser) this.senderUser = senderUser, this.senderUserId = senderUser.id

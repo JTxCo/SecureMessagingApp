@@ -1,19 +1,22 @@
-import { Message } from "./Message";
-import { User } from "./User";
-import { Contact } from "./Contact";
-import * as MessageStatus from "./MessageStatus";
-import { SQLiteDBAccess } from "./SqliteDBAccess";
+// import { Message } from "./Message";
+// import { User } from "./User";
+// import { Contact } from "./Contact";
+// import * as MessageStatus from "./MessageStatus";
+// import { SQLiteDBAccess } from "./SqliteDBAccess";
 import { createUser, getUserFromDatabase } from "./User-Operations";
-import { getContactFromDatabaseByID } from "./Contact-Operations";
+import { getChatFromDatabaseByChatId } from "./Chat-Operations";
+// import { getContactFromDatabaseByID } from "./Contact-Operations";
+import{ Message, User,Chat, Contact, MessageStatus, SQLiteDBAccess, MessageStatusFactory, } from "./";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
-
-export async function createMessage(id: number, text: string, timestamp: Date, chatId: number, status: MessageStatus.MessageStatus, senderUser?: User, senderContact?: Contact): Promise<Message> {
+//might optimize this function and remove the if satement
+export async function createMessage(id: number, text: string, timestamp: Date, status: MessageStatus, chat: Chat, senderUser?: User, senderContact?: Contact): Promise<Message> {
   if(senderUser) {
-    return new Message(id, text, timestamp, chatId, status, senderUser);
+    return new Message(id, text, timestamp, status,chat, senderUser, null);
   }
-  return new Message(id, text, timestamp, chatId, status, senderContact);
+  return new Message(id, text, timestamp, status,chat, null,senderContact);
 }
 export function setReadyToSend(message: Message): void {
   message.readyToSend = true;
@@ -65,8 +68,8 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
           message.id,
           message.text,
           new Date(message.timestamp),
-          message.chatId,
-          MessageStatus.MessageStatusFactory.createMessageStatus(message.status),
+          MessageStatusFactory.createMessageStatus(message.status),
+          getChatFromDatabaseByChatId(message.chatId),
           senderUser,
           senderContact
       );
