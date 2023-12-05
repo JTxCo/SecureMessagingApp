@@ -51,6 +51,7 @@ model Message {
     timestamp        DateTime  @default(now())
     chatId           Int
     status           String
+    readyToSend      Boolean   @default(false)
     senderUserId     Int?
     senderContactId  Int?
     chat             Chat      @relation(fields: [chatId], references: [id])

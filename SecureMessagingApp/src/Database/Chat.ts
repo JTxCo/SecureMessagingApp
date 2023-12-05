@@ -17,6 +17,4 @@ chatName: string
 userId: number
 user: User
 members: Contact[]
-Messages: Message[]
-
 }

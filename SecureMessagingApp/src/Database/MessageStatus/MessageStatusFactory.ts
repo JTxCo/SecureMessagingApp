@@ -1,9 +1,6 @@
-
 import * as MessageStatus from './';
 
-
-export class MessageStatusFactory {
-    public static createMessageStatus(status: string): MessageStatus.MessageStatus {
+export function createMessageStatus(status: string): MessageStatus.MessageStatus {
         switch (status) {
             case 'draft':
                 return new MessageStatus.DraftStatus();
@@ -19,4 +16,3 @@ export class MessageStatusFactory {
                 throw new Error('Invalid status');
         }
     }
-}
