@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+    id         Int       @id @default(autoincrement())
+    username   String
+    firstName String
+    lastName  String
+    hashedPassword String
+    publicKey  String
+    chats      Chat[]
+    contacts   Contact[]
+    messages   Message[]  @relation("messagesOfUser") @ignore
+}
+
+
+model Contact {
+    id          Int       @id @default(autoincrement())
+    userName    String
+    firstName   String
+    lastName    String
+    publicKey   String
+    userId      Int
+    user        User      @relation(fields: [userId], references: [id])
+    chats       Chat[]
+    messages    Message[]  @relation("messagesOfContact") @ignore
+}
+
+
+model Chat {
+  id             Int       @id @default(autoincrement())
+  name           String
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+  contacts       Contact[]
+  messages       Message[]
+}
+
+model Message {
+    id               Int       @id @default(autoincrement())
+    text             String
+    timestamp        DateTime  @default(now())
+    chatId           Int
+    status           String
+    readyToSend      Boolean   @default(false)
+    senderUserId     Int?
+    senderContactId  Int?
+    chat             Chat      @relation(fields: [chatId], references: [id])
+    senderUser       User?     @relation("messagesOfUser", fields: [senderUserId], references: [id])
+    senderContact    Contact?  @relation("messagesOfContact", fields: [senderContactId], references: [id])
+
+    @@index([senderUserId], name: "idx_message_senderUserId")
+    @@index([senderContactId], name: "idx_message_senderContactId")
+}
