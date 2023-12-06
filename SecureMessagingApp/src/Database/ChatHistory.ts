@@ -8,6 +8,7 @@ export class ChatHistory{
     messages: Message[];
     constructor(chatID: number){
         this.chatID = chatID;
+        this.messages = [];
     }
     
 

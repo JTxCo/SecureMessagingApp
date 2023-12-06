@@ -1,19 +1,15 @@
-import { Message } from "./Message";
-import { User } from "./User";
-import { Contact } from "./Contact";
-import * as MessageStatus from "./MessageStatus";
-import { SQLiteDBAccess } from "./SqliteDBAccess";
-import { createUser, getUserFromDatabase } from "./User-Operations";
+import {  getUserFromDatabasByID } from "./User-Operations";
+import{ Message, User,Chat, Contact, MessageStatus, SQLiteDBAccess,createMessageStatus } from "./";
 import { getContactFromDatabaseByID } from "./Contact-Operations";
 
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
-
-export async function createMessage(id: number, text: string, timestamp: Date, chatId: number, status: MessageStatus.MessageStatus, senderUser?: User, senderContact?: Contact): Promise<Message> {
+//might optimize this function and remove the if satement
+export async function createMessage(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number, readyToSend: boolean, senderUser?: User, senderContact?: Contact ): Promise<Message> {
   if(senderUser) {
-    return new Message(id, text, timestamp, chatId, status, senderUser);
+    return new Message(id, text, timestamp, status, chatID,readyToSend, senderUser, undefined);
   }
-  return new Message(id, text, timestamp, chatId, status, senderContact);
+  return new Message(id, text, timestamp, status, chatID ,readyToSend, undefined, senderContact);
 }
 export function setReadyToSend(message: Message): void {
   message.readyToSend = true;
@@ -28,6 +24,7 @@ export async function saveMessageToDatabase(message: Message): Promise<void> {
         timestamp: message.timestamp,
         chatId: message.chatId,
         status: message.status.getStatus(),
+        readyToSend: message.readyToSend,
         senderUserId: message.senderUserId,
       },
     });
@@ -44,63 +41,66 @@ export async function saveMessageToDatabase(message: Message): Promise<void> {
     });
   }
 }
+async function getUserAndContactFromMessage(message: {senderUserId: number | null, senderContactId: number | null}): Promise<{ user: User | undefined, contact: Contact | undefined }> {
+  let senderUser: User | undefined;
+  let senderContact: Contact | undefined;
+
+  if (message.senderUserId !== null) {
+    senderUser = await getUserFromDatabasByID(message.senderUserId);
+  }
+
+  if (message.senderContactId !== null) {
+    senderContact = await getContactFromDatabaseByID(message.senderContactId);
+  }
+
+  return { user: senderUser, contact: senderContact };
+}
 
 //This funcrtion uses the User/Contact operations to create a user/contact object from the database, and then creates a message object from the database with associated into
-//  if one does not exist it is null
+//  if one does not exist it is null 
 export async function getMessageFromDatabase(id: number): Promise<Message | null> {
-    const message = await prisma.message.findUnique({
-      where: { id: id },
-    });
-    
-    if (message) {
-      let senderUser: User | undefined;
-      let senderContact: Contact | undefined;
-      if(message.senderUserId) {
-      const senderUser = await getUserFromDatabase(message.senderUserId);
-      }
-      else {
-        const senderContact = await getContactFromDatabaseByID(message.senderContactId);
-      }
-      return createMessage(
-          message.id,
-          message.text,
-          new Date(message.timestamp),
-          message.chatId,
-          MessageStatus.MessageStatusFactory.createMessageStatus(message.status),
-          senderUser,
-          senderContact
-      );
-    } else {
-      return null;
-    }
-  }
+  const message = await prisma.message.findUnique({
+    where: { id: id },
+  });
+
+  if (message) {
+    const { user: senderUser, contact: senderContact } = await getUserAndContactFromMessage(message);
+
+    return createMessage(
+      message.id,
+      message.text,
+      new Date(message.timestamp),
+      createMessageStatus(message.status),
+      message.chatId,
+      message.readyToSend,
+      senderUser, 
+      senderContact
+    );
+  } 
+
+  return null;
+}
+
+
   //this will return every message froma chatId in the database. It will create a message object for each message in the database, and then return an array of messages
   export async function getMessagesFromDatabaseByChatId(chatId: number): Promise<Message[]> {
     const messages = await prisma.message.findMany({ where: { chatId: chatId } });
+    
     return Promise.all(messages.map(async (message) => {
-      
-      let senderUser;
-      let senderContact;
-  
-      if (message.senderUserId) {
-        senderUser = await getUserFromDatabase(message.senderUserId); 
-      }
-      if (message.senderContactId) {
-        senderContact = await getContactFromDatabaseByID(message.senderContactId);  
-      }
-  
+      const { user: senderUser, contact: senderContact } = await getUserAndContactFromMessage(message);
+    
       return createMessage(
         message.id,
         message.text,
-        new Date(message.timestamp),
+        message.timestamp,
+        createMessageStatus(message.status),
         message.chatId,
-        MessageStatus.MessageStatusFactory.createMessageStatus(message.status),
+        message.readyToSend,
         senderUser,
         senderContact
       );
     }));
   }
-    
   
 
   export async function updateMessageInDatabase(message: Message): Promise<void> {

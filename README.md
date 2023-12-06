@@ -42,6 +42,7 @@ On the other side, AsyncStorage, a simplified key-value storage system, manages 
 
 4. **Singleton Pattern**: Ensures only one instance of the SQLite and AsyncStorage databases is created and shared across the application.
 
+5. **Factory Pattern**: Used to create different types of message status objects.
 
 ## Authors
 

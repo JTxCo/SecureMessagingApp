@@ -9,14 +9,14 @@ export class GroupChat implements Chat{
     userId: number;
     user: User;
     members: Contact[];
-    Messages: Message[];
+    messages: Message[];
     constructor(id: number, chatName: string, userId: number, user: User, members: Contact[], Messages: Message[]){
         this.id = id;
         this.chatName = chatName;
         this.userId = userId;
         this.user = user;
         this.members = members;
-        this.Messages = Messages;
+        this.messages = Messages;
     }
     
 }
