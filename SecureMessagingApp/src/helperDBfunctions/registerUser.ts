@@ -1,6 +1,5 @@
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { SQLiteDBAccess, User, registerUser, getUserFromDatabasByID } from "..";
-import { deleteAllUsersFromDatabase, getAllUsersFromDatabase } from "../Database/User-Operations";
+import { User, registerUser, getUserFromDatabasByID } from "..";
+import { getAllUsersFromDatabase } from "../Database/User-Operations";
 console.log('Welcome to the messaging app!');
 async function initApp() {
     await registerUser(67, "user1", "password1", "publicKey1", "firstName1", "lastName1");
@@ -15,7 +14,7 @@ async function fetchUsers() {
 }
 
 // Call the initApp function
-// initApp();
+initApp();
 // fetchUsers();
 // fetchUsers();
 

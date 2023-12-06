@@ -1,11 +1,12 @@
 // import { , getUserFromDatabasByID, Contact } from "./";
 import { getUserChoice, input } from './commandLine'; // Import the function from commandLine.ts
 import { User, checkPassword, createUser, comparePasswords, saveUserToDatabase, registerUser, getUserFromDatabasByUsername} from './';
+import {saveData} from "./"
   
   
   
   console.log('Welcome to the messaging app!');
-  
+
   function logIn() {
     function askForChoice() {
       console.log('Please select an option:');
@@ -23,6 +24,7 @@ import { User, checkPassword, createUser, comparePasswords, saveUserToDatabase, 
                     input.question("Enter last name: ", (lastName: string) => {
                       // Generate a unique user ID and hash the password in real use case
                       const id = Math.floor(Math.random() * 10000); // placeholder
+                      saveData(username,id)
                         try{
                             registerUser(id, username, password, publicKey, firstName, lastName);
                             console.log(`Registered user .`);

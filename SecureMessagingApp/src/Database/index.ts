@@ -30,3 +30,4 @@ import { ChatHistory } from "./ChatHistory";
 export {ChatHistory} from "./ChatHistory";
 import { getUserFromDatabasByID } from "./User-Operations";
 export {getUserFromDatabasByID} from "./User-Operations";
+import { saveData, getData  } from "./AsyncStorage";

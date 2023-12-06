@@ -1,6 +1,6 @@
 import readline from 'readline';
 
-const input = readline.createInterface({
+export const input = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
@@ -13,11 +13,11 @@ interface Contact {
 const contacts: Contact[] = [];
 const phoneNumbersSeen: string[] = [];
 
-function isPhoneNumberUnique(phone: string): boolean {
+export function isPhoneNumberUnique(phone: string): boolean {
   return !phoneNumbersSeen.includes(phone);
 }
 
-function getUserChoice(): void {
+export function getUserChoice(): void {
   console.log('Welcome to the messaging app!');
   
   function askForChoice(): void {
@@ -28,13 +28,26 @@ function getUserChoice(): void {
     console.log('4. Log out of app');
 
     input.question('Enter your choice: ', (choice: string) => {
-      
-      // All of your other logic here...
-      
+      switch(choice) {
+        case '1':
+          input.question('Enter contact name: ', (name: string) => {
+            input.question('Enter contact phone number: ', (phone: string) => {
+              if (isPhoneNumberUnique(phone)) {
+                contacts.push({ name, phone });
+                phoneNumbersSeen.push(phone);
+                console.log(`Contact ${name} created!`);
+              } else {
+                console.log('Phone number already exists');
+              }
+              askForChoice(); // ask for user's choice again after processing their current one
+            });
+          });
+          break;
+        default:
+          throw new Error('Invalid choice');
+      }
     });
   }
-
+  
   askForChoice();
 }
-
-export { getUserChoice, input };
