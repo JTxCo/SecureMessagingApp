@@ -99,8 +99,8 @@ export async function getChatFromDatabaseByChatId(id: number) : Promise<Chat | n
       createMessageStatus(msg.status),
       msg.chatId,
       msg.readyToSend,
-      user,
-      contact
+      user?.id,
+      contact?.id,
     );
   }));
 

@@ -35,8 +35,8 @@ async function fetchMessages(): Promise<Message[]> {
                 createMessageStatus(message.status), 
                 message.chatId, 
                 message.readyToSend, 
-                user, // undefined if senderUserId was null
-                contact // undefined if senderContactId was null
+                user?.id, // undefined if senderUserId was null
+                contact?.id // undefined if senderContactId was null
             );
         })
     );

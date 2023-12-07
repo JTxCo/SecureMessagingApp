@@ -1,5 +1,4 @@
 // user.ts
-import { paginateScan } from '@aws-sdk/client-dynamodb';
 import WebSocket from 'ws';
 
 //const ws = new WebSocket('ws://localhost:3000');
