@@ -33,3 +33,8 @@ import { getAllChatsFromDatabase } from "./Database/Chat-Operations";
 export { getAllChatsFromDatabase } from "./Database/Chat-Operations";
 import{ chatsClI } from "./Chats-CLI";
 export { chatsClI } from "./Chats-CLI";
+import { SentStatus } from "./Database";
+export { SentStatus} from "./Database";
+import { createMessageStatus } from "./Database";
+export { createMessageStatus } from "./Database";
+
