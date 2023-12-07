@@ -1,53 +1,60 @@
-import readline from 'readline';
-
-export const input = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-interface Contact {
-  name: string;
-  phone: string;
-}
-
-const contacts: Contact[] = [];
-const phoneNumbersSeen: string[] = [];
-
-export function isPhoneNumberUnique(phone: string): boolean {
-  return !phoneNumbersSeen.includes(phone);
-}
+import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, chatsClI} from './';
 
 export function getUserChoice(): void {
   console.log('Welcome to the messaging app!');
-  
-  function askForChoice(): void {
+
+  async function askForChoice(): Promise<void> {
     console.log('Please select an option:');
     console.log('1. Create a new contact');
-    console.log('2. Create a new single chat');
-    console.log('3. Create a new group chat');
-    console.log('4. Log out of app');
+    console.log('2. Show all contacts');
+    console.log('3. Create a new chat');
+    console.log('4. Show my chats');
+    console.log('Exit. Log out of app');
 
-    input.question('Enter your choice: ', (choice: string) => {
-      switch(choice) {
-        case '1':
-          input.question('Enter contact name: ', (name: string) => {
-            input.question('Enter contact phone number: ', (phone: string) => {
-              if (isPhoneNumberUnique(phone)) {
-                contacts.push({ name, phone });
-                phoneNumbersSeen.push(phone);
-                console.log(`Contact ${name} created!`);
-              } else {
-                console.log('Phone number already exists');
-              }
-              askForChoice(); // ask for user's choice again after processing their current one
-            });
-          });
-          break;
-        default:
-          throw new Error('Invalid choice');
-      }
+    const choice: string = await new Promise((resolve) => {
+      input.question('Enter your choice: ', resolve);
     });
-  }
+
+    switch (choice) {
+      case '1':
+        console.log('You chose to create a new contact. \n');
+        const addedContact = await AddContact();
+        await askForChoice();
+        break;
+
+      case '2':
+        console.log('You chose to show all contacts. \n');
+        const contacts = await getAllContactsFromDatabase();
+        contacts.forEach((contact) => {
+          const {firstName, lastName} = contact;
+          console.log(`Name: ${firstName} ${lastName}`);
+        });
+        console.log('\n');
+        await askForChoice();
+        break;
+
+      case '3':
+        console.log('You chose to create a chat. \n');
+        const createdChat = await createChatOperation_CLI();
+        await askForChoice();
+        break;
+      case '4':
+        console.log('You chose to show all chats. \n');
+        await chatsClI();
+        await askForChoice();
+        break;
   
+      case "exit":
+        console.log("You chose to exit the app.");
+        input.close();
+        break;
+
+      default:
+        console.error('Invalid choice');
+        console.log('Not a valid number choice. Please try again. \n');
+        await askForChoice();
+    }
+  }
+
   askForChoice();
 }

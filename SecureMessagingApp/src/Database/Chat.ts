@@ -15,6 +15,6 @@ export interface Chat {
 id: number
 chatName: string
 userId: number
-user: User
 members: Contact[]
+messages: Message[]
 }

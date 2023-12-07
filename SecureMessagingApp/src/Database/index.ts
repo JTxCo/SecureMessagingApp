@@ -31,3 +31,7 @@ export {ChatHistory} from "./ChatHistory";
 import { getUserFromDatabasByID } from "./User-Operations";
 export {getUserFromDatabasByID} from "./User-Operations";
 import { saveData, getData  } from "./AsyncStorage";
+import { getChatFromDatabaseByChatId } from "./Chat-Operations";
+export {getChatFromDatabaseByChatId} from "./Chat-Operations";
+export {getAllChatsFromDatabase} from "./Chat-Operations";
+
