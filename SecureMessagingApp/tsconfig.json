@@ -29,6 +29,7 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
+    "types": ["node", "ws"],
     "target": "esnext",
     "noEmit": false,
     "outDir": "./dist",
@@ -43,6 +44,6 @@
   ],
   "include": [
     "**/*.ts", 
-    "**/*.tsx"
+    "**/*.tsx",    
   ]
 }
