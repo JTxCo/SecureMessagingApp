@@ -11,11 +11,11 @@
     "begin": "tsc && node dist/Model-Structure/Model.js",
     "mjs-begin": "tsc && find dist -name '*.js' -exec rename 's/\\.js$/\\.mjs/' '{}' \\; && node dist/Model-Structure/Model.mjs"
   },
-  "type": "module",
   "dependencies": {
     "@noble/curves": "^1.2.0",
     "@npmcli/fs": "^3.1.0",
     "@prisma/client": "^5.6.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",

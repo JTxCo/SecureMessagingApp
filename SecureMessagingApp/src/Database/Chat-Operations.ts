@@ -1,16 +1,16 @@
 import {Chat, IndividualChat, GroupChat, SQLiteDBAccess, User, Contact,Message, createMessageStatus } from './';
-import { createMessage, setReadyToSend } from './Message-Operations';
+import { createMessage, getMessagesFromDatabaseByChatId, setReadyToSend } from './Message-Operations';
 import { getUserFromDatabasByID } from './User-Operations';
 import { getContactFromDatabaseByID } from './Contact-Operations';
 
 
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
-export function createChat(id: number, chatName: string, userId: number, user: User, members: Contact[], messages: Message[]): Chat {
+export function createChat(id: number, chatName: string, userId: number, members: Contact[], messages: Message[]): Chat {
   if (members.length == 1) {
-    return new IndividualChat(id, chatName, userId, user, members, messages);
+    return new IndividualChat(id, chatName, userId, members, messages);
   }
-  return new GroupChat(id, chatName, userId, user, members, messages);
+  return new GroupChat(id, chatName, userId, members, messages);
 }
 
 
@@ -104,7 +104,24 @@ export async function getChatFromDatabaseByChatId(id: number) : Promise<Chat | n
     );
   }));
 
-  return createChat(chat.id, chat.name, chat.userId, chat.user, chat.contacts, messages);
+  return createChat(chat.id, chat.name, chat.userId, chat.contacts, messages);
+}
+
+export async function getAllChatsFromDatabase(): Promise<Chat[]> {
+  const chats = await prisma.chat.findMany({
+    include: {
+      contacts: true,
+      messages: true,
+      user: true,
+    },
+  });
+
+  // use Promise.all to run all tasks in parallel
+  return await Promise.all(chats.map(async (chat) => {
+    // use Promise.all to run all tasks in parallel
+    const messages = await getMessagesFromDatabaseByChatId(chat.id);
+    return createChat(chat.id, chat.name, chat.userId, chat.contacts, messages);
+  }));
 }
 
 

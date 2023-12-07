@@ -3,9 +3,21 @@
 import { hashPassword } from './../Model-Structure/Security/HashingPassword';
 import { User } from './User';
 import { SQLiteDBAccess } from './SqliteDBAccess';
+import bycrypt from 'bcryptjs';
 
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
+export async function registerUser(id: number, username: string, password: string, publicKey: string, firstName: string, lastName: string): Promise<void> {
+  try{
+    const user = await createUser(id, username, password, publicKey, firstName, lastName)
+    await saveUserToDatabase(user);
+  }
+  catch(err){
+    console.log("could not register user: " + err);
+    throw err;
+  }
+}
+
 
 export async function createUser(id: number, username: string, password: string, publicKey: string, firstName: string, lastName: string): Promise<User> {
   const hashedPassword = await hashPassword(password);
@@ -47,10 +59,8 @@ export async function checkPassword(username: string, password: string): Promise
 }
 
 export async function comparePasswords(inputPassword: string, hashedPassword: string): Promise<boolean> {
-  const hashedInputPassword = await hashPassword(inputPassword);
-  return hashedInputPassword == hashedPassword;
+  return bycrypt.compare(inputPassword, hashedPassword);
 }
-
 export async function getUserFromDatabasByID(id: number): Promise<User | undefined> {
     const user = await prisma.user.findFirst({ where: { id: id } });
     if (user) {
@@ -58,6 +68,14 @@ export async function getUserFromDatabasByID(id: number): Promise<User | undefin
     } else {
       return undefined;
     }
+}
+export async function getUserFromDatabasByUsername(username: string): Promise<User | undefined> {
+  const user = await prisma.user.findFirst({ where: { username: username } });
+  if (user) {
+    return new User(user.id, user.username, user.hashedPassword, user.publicKey, user.firstName, user.lastName);
+  } else {
+    return undefined;
+  }
 }
 
 export function getAllUsersFromDatabase(): Promise<User[]> {
@@ -67,5 +85,7 @@ export function getAllUsersFromDatabase(): Promise<User[]> {
 export function deleteUserFromDatabase(id: number): Promise<any> {
   return prisma.user.delete({ where: { id: id } });
 }
-
+export function deleteAllUsersFromDatabase(): Promise<any> {
+  return prisma.user.deleteMany();
+}
 // ...
