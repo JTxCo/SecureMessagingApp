@@ -13,11 +13,11 @@ export class Message {
     senderUserId?: number
     senderContactId?: number
     chatID: number
-    senderUser?: User
-    senderContact?: Contact
+    // senderUser?: User
+    // senderContact?: Contact
     readyToSend: boolean = false
 
-    constructor(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number,readyToSend: boolean, senderUser?: User, senderContact?: Contact) {
+    constructor(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number,readyToSend: boolean, senderUserId?:number , senderContactId?: number ) {
         this.id = id
         this.text = text
         this.timestamp = timestamp
@@ -25,7 +25,9 @@ export class Message {
         this.status = status
         this.chatID = chatID
         this.readyToSend = readyToSend
-        if (senderUser) this.senderUser = senderUser, this.senderUserId = senderUser.id
-        if (senderContact) this.senderContact = senderContact, this.senderContactId = senderContact.id
+        // if (senderUserId) this.senderUser = senderUser, this.senderUserId = senderUser.id
+        // if (senderContactId) this.senderContact = senderContact, this.senderContactId = senderContact.id
+        this.senderUserId = senderUserId
+        this.senderContactId = senderContactId
 }  
 }

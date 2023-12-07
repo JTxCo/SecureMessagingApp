@@ -5,18 +5,18 @@ import { getContactFromDatabaseByID } from "./Contact-Operations";
 const sqlite = SQLiteDBAccess.getInstance();
 const prisma = sqlite.getPrismaClient();
 //might optimize this function and remove the if satement
-export async function createMessage(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number, readyToSend: boolean, senderUser?: User, senderContact?: Contact ): Promise<Message> {
-  if(senderUser) {
-    return new Message(id, text, timestamp, status, chatID,readyToSend, senderUser, undefined);
+export async function createMessage(id: number, text: string, timestamp: Date, status: MessageStatus, chatID: number, readyToSend: boolean, senderUserId?: number, senderContactId?: number ): Promise<Message> {
+  if(senderUserId) {
+    return new Message(id, text, timestamp, status, chatID,readyToSend, senderUserId, undefined);
   }
-  return new Message(id, text, timestamp, status, chatID ,readyToSend, undefined, senderContact);
+  return new Message(id, text, timestamp, status, chatID ,readyToSend, undefined, senderContactId);
 }
 export function setReadyToSend(message: Message): void {
   message.readyToSend = true;
 }
 
 export async function saveMessageToDatabase(message: Message): Promise<void> {
-  if(message.senderUser) {
+  if(message.senderUserId) {
     await prisma.message.create({
       data: {
         id: message.id,
@@ -73,8 +73,8 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
       createMessageStatus(message.status),
       message.chatId,
       message.readyToSend,
-      senderUser, 
-      senderContact
+      senderUser?.id,
+      senderContact?.id
     );
   } 
 
@@ -96,15 +96,15 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
         createMessageStatus(message.status),
         message.chatId,
         message.readyToSend,
-        senderUser,
-        senderContact
+        senderUser?.id,
+        senderContact?.id
       );
     }));
   }
   
 
   export async function updateMessageInDatabase(message: Message): Promise<void> {
-    if(message.senderUser) {
+    if(message.senderUserId) {
       await prisma.message.update({
         where: { id: message.id },
         data: {

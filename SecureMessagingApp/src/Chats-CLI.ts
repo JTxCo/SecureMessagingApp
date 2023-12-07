@@ -1,5 +1,6 @@
-import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase } from './';
-import { Chat } from './Database';
+import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, createMessage } from './';
+import { createMessageStatus } from './Database/MessageStatus/MessageStatusFactory';
+import { Chat, User } from './Database';
 export async function chatsClI(): Promise<void> {
     const chats = await getAllChatsFromDatabase();
     chats.forEach((chat, index) => {
@@ -25,7 +26,10 @@ async function getChatCommand(specificChat: Chat): Promise<void> {
         input.question('Enter your choice: ', async (choice: string) => {
             switch (choice) {
                 case '1':
-                    // your logic here
+                    input.question('Enter your message: ', async (message: string) => {
+                        sendAMessage(message);
+                        resolve(); // Resolve after the switch completes to signal promise completion
+                    });
                     break; 
                 case '2':
                     // your logic here
@@ -51,6 +55,32 @@ async function getChatCommand(specificChat: Chat): Promise<void> {
         });
     });
 }
+
+
+
+async function sendAMessage(text: string): Promise<void> {
+    const id = Math.floor(Math.random() * 10000); // placeholder
+    const userIdString = FSgetData('username');
+    const userId: number = userIdString !== undefined ? parseInt(userIdString) : (() => {
+      throw new Error('User ID not found');
+    })();
+    console.log('You chose to send a message. \n');
+    console.log('Your message says: ', text);
+    const DraftStatus = createMessageStatus('draft');
+    const message = await createMessage(id, text, new Date(), DraftStatus, 1, true, userId, undefined);
+
+
+
+
+    console.log(`Message sent: ${text}`);
+
+
+
+}
+
+
+
+
 
 
 

@@ -24,6 +24,10 @@ import { createChat, saveChatToDatabase } from "./Database/Chat-Operations";
 export { createChat, saveChatToDatabase } from "./Database/Chat-Operations";
 import { Message } from "./Database";
 export { Message } from "./Database";
+import { MessageStatus } from "./Database";
+export type { MessageStatus } from "./Database";
+import { createMessage } from "./Database/Message-Operations";
+export { createMessage } from "./Database/Message-Operations";  
 import readline from 'readline';
 export const input = readline.createInterface({
     input: process.stdin,
