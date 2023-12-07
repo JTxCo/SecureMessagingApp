@@ -1,7 +1,8 @@
 // server.ts
 import * as WebSocket from 'ws';
 
-const wss = new WebSocket.Server({ port: 3000 });
+//const wss = new WebSocket.Server({ port: 3000});
+const wss = new WebSocket.Server({ port: 3000, host:  '0.0.0.0'});
 const clients: WebSocket[] = [];
 
 wss.on('connection', (ws: WebSocket) => {
