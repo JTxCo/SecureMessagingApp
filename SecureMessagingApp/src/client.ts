@@ -39,22 +39,7 @@ export function client(port: number): void {
         );
         //console.log('stringify message: ', JSON.stringify(newMessage));
         ws.send(JSON.stringify({ message }));
-    });
-        //const input = data.toString.trim();
-        if(input === ''){
-            if(inputBuffer.trim() !== ''){
-                const newMessage = {
-                    message: inputBuffer.trim(),
-                };
-            
-                console.log("Sent Message: ", newMessage.message);
-                ws.send(JSON.stringify(newMessage));
-                inputBuffer = '';
-            }
-        }
-        else{
-            inputBuffer += input + ' ';
-        }*/
+    });*/
         const message = data.toString().trim();
         ws.send(JSON.stringify({ message }));
     });

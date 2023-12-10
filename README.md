@@ -49,3 +49,5 @@ On the other side, AsyncStorage, a simplified key-value storage system, manages 
 -  **Joel Carlson**  - [Joel Carlson](https://github.com/JtxCo)
 -  **Davis Lapkin**  - [Davis Lapkin](https://github.com/Smileydavisl)
 
+Errors we were getting, point to work we have done from 12/7 and due date
+
