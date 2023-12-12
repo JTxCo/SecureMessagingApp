@@ -10,7 +10,7 @@ export function getUserChoice(): void {
     console.log('3. Create a new chat');
     console.log('4. Show my chats');
     console.log('5. View user info');
-    console.log('Exit. Log out of app');
+    console.log('Enter to log out of app');
 
     const choice: string = await new Promise((resolve) => {
       input.question('Enter your choice: ', resolve);
@@ -76,7 +76,7 @@ export function getUserChoice(): void {
         console.log('\n');
         await askForChoice();
         break;
-      case "exit":
+      case "":
         console.log("You chose to exit the app.");
         input.close();
         break;

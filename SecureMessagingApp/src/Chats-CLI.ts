@@ -20,52 +20,52 @@ export async function chatsClI(): Promise<void> {
 }
 
 async function getChatCommand(specificChat: Chat): Promise<void> {
-    return new Promise((resolve, reject) => {
-        console.log('Please select an option:');
-        console.log('1. Send a message');
-        console.log('2. Show chat history');
-        console.log('3. Show chat members');
-        console.log('4. Add a member to chat');
-        console.log('5. Remove a member from chat');
-        console.log('6. Rename chat');
-    
-        input.question('Enter your choice: ', async (choice: string) => {
-            switch (choice) {
-                case '1':
-                    input.question('Enter your message: ', async (message: string) => {
-                        await sendAMessage(message);
-                        resolve(); // Resolve after the switch completes to signal promise completion
-                    });
-                    break; 
-                case '2':
-                    // your logic here
-                    break;
-                case '3':
-                    // your logic here
-                    break;
-                case '4':
-                    // your logic here
-                    break;
-                case '5':
-                    // your logic here
-                    break;
-                case '6':
-                    // your logic here
-                    break;
-                default:
-                    console.error('Invalid choice');
-                    console.log('Not a valid number choice. Please try again. \n');
-                    break;
-            }
-            resolve(); // Resolve after the switch completes to signal promise completion
-        });
+    console.log('Please select an option:');
+    console.log('1. Send a message');
+    console.log('2. Show chat history');
+    console.log('3. Show chat members');
+    console.log('4. Add a member to chat');
+    console.log('5. Remove a member from chat');
+    console.log('6. Rename chat');
+
+    const choice: string = await new Promise((resolve) => {
+        input.question('Enter your choice: ', resolve);
     });
+
+    switch (choice) {
+        case '1':
+            const message: string = await new Promise((resolve) => {
+                input.question('Enter your message: ', resolve);
+            });
+
+            await sendAMessage(message);
+            break;
+        case '2':
+            // your logic here
+            break;
+        case '3':
+            // your logic here
+            break;
+        case '4':
+            // your logic here
+            break;
+        case '5':
+            // your logic here
+            break;
+        case '6':
+            // your logic here
+            break;
+        default:
+            console.error('Invalid choice');
+            console.log('Not a valid number choice. Please try again. \n');
+            break;
+    }
 }
 
 
 
 async function sendAMessage(text: string): Promise<void> {
-    const id = Math.floor(Math.random() * 10000); // placeholder
+    const id = Math.floor(Math.random() * 10000); 
     const userIdString = FSgetData('username');
     const userId: number = userIdString !== undefined ? parseInt(userIdString) : (() => {
       throw new Error('User ID not found');
@@ -74,9 +74,8 @@ async function sendAMessage(text: string): Promise<void> {
     console.log('Your message says: ', text);
     const DraftStatus = createMessageStatus('draft');
     const message = await createMessage(id, text, new Date(), DraftStatus, 1, true, userId, undefined);
-    saveMessageToDatabase(message);
+    // saveMessageToDatabase(message);
     console.log(`Message sent: ${text}`);
-
 }
 
 

@@ -42,20 +42,23 @@ import { FSsaveData } from './';
           
         }
         else if (choice === '2') {
-            console.log('You chose to log in.');
+          console.log('You chose to log in.');
             input.question("Enter your username: ", (inputUsername: string) => {
-                input.question("Enter your password: ", (inputPassword: string) => {
-                    checkPassword(inputUsername, inputPassword).then((result) => {
-                        if (result) {
-                            console.log(`You are now logged in as ${inputUsername}.`);
-                            getUserChoice();
-                        } else {
-                            console.log('Invalid username or password.');
-                            askForChoice();  // Ask for another choice
-                        }
-                    });
-                });
-            });
+              input.question("Enter your password: ", async (inputPassword: string) => {
+                const result = await checkPassword(inputUsername, inputPassword);
+                if (result) {
+                  console.log(`You are now logged in as ${inputUsername}.`);
+                  const user = await getUserFromDatabasByUsername(inputUsername);
+                  if (user !== undefined) {
+                    getUserChoice();
+                    FSsaveData('username', user.id.toString());
+                  }
+                } else {
+                  console.log('Invalid username or password.');
+                  askForChoice();  // Ask for another choice
+                }
+              });
+          });
         }
         
             else if (choice === '3') {
