@@ -2,6 +2,7 @@ import {Chat, IndividualChat, GroupChat, SQLiteDBAccess, User, Contact,Message, 
 import { createMessage, getMessagesFromDatabaseByChatId, setReadyToSend } from './Message-Operations';
 import { getUserFromDatabasByID } from './User-Operations';
 import { getContactFromDatabaseByID } from './Contact-Operations';
+import { FSgetData } from './FS-Storage';
 
 
 const sqlite = SQLiteDBAccess.getInstance();
@@ -124,4 +125,26 @@ export async function getAllChatsFromDatabase(): Promise<Chat[]> {
   }));
 }
 
+export async function getChatsFromDatabaseByUserId(): Promise<Chat[]> {
+  const userIdString = FSgetData('username');
+  if (userIdString === undefined) {
+    throw new Error('User ID not found');
+  }
+  const userId: number = parseInt(userIdString);
+  const chats = await prisma.chat.findMany({
+    where: { userId: userId },
+    include: {
+      contacts: true,
+      messages: true,
+      user: true,
+    },
+  });
 
+  const chatPromises = chats.map(async (chat) => {
+    const updatedChat = await getChatFromDatabaseByChatId(chat.id);
+    return updatedChat;
+  });
+
+  const updatedChats = await Promise.all(chatPromises);
+  return updatedChats.filter((chat) => chat !== null) as Chat[];
+}

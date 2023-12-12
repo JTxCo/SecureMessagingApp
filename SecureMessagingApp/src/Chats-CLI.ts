@@ -1,12 +1,18 @@
-import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, createMessage } from './';
+import { createContact, saveContactToDatabase, getData, Contact, saveMessageToDatabase, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, createMessage } from './';
 import { createMessageStatus } from './Database/MessageStatus/MessageStatusFactory';
 import { Chat, User } from './Database';
+import { getChatsFromDatabaseByUserId } from './Database/Chat-Operations';
 export async function chatsClI(): Promise<void> {
-    const chats = await getAllChatsFromDatabase();
+    const chats = await getChatsFromDatabaseByUserId();
     chats.forEach((chat, index) => {
       const {chatName} = chat;
       console.log(`${index+1}. ${chatName}`);
     });
+    if(chats.length === 0){
+        console.log('You have no chats.')     
+        console.log('\n');
+        return;
+    }
     const chatInput = await getChatSelection(chats); // need to await the promise
     console.log('\n');
     const specificChat = chats[chatInput-1];
@@ -27,7 +33,7 @@ async function getChatCommand(specificChat: Chat): Promise<void> {
             switch (choice) {
                 case '1':
                     input.question('Enter your message: ', async (message: string) => {
-                        sendAMessage(message);
+                        await sendAMessage(message);
                         resolve(); // Resolve after the switch completes to signal promise completion
                     });
                     break; 
@@ -68,13 +74,8 @@ async function sendAMessage(text: string): Promise<void> {
     console.log('Your message says: ', text);
     const DraftStatus = createMessageStatus('draft');
     const message = await createMessage(id, text, new Date(), DraftStatus, 1, true, userId, undefined);
-
-
-
-
+    saveMessageToDatabase(message);
     console.log(`Message sent: ${text}`);
-
-
 
 }
 

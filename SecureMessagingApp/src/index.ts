@@ -37,3 +37,5 @@ import { getAllChatsFromDatabase } from "./Database/Chat-Operations";
 export { getAllChatsFromDatabase } from "./Database/Chat-Operations";
 import{ chatsClI } from "./Chats-CLI";
 export { chatsClI } from "./Chats-CLI";
+import { saveMessageToDatabase } from "./Database/Message-Operations";
+export { saveMessageToDatabase } from "./Database/Message-Operations";

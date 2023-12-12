@@ -19,3 +19,6 @@ export function FSgetData(key: string): string | undefined {
     }
     return undefined;
 }
+export function FSdeleteUsername(): void {
+    fs.unlinkSync('username');
+}

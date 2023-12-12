@@ -32,6 +32,8 @@ import { getUserFromDatabasByID } from "./User-Operations";
 export {getUserFromDatabasByID} from "./User-Operations";
 import { saveData, getData  } from "./AsyncStorage";
 import { getChatFromDatabaseByChatId } from "./Chat-Operations";
+import { deleteAllContactsFromDatabase } from "./Contact-Operations";
 export {getChatFromDatabaseByChatId} from "./Chat-Operations";
-export {getAllChatsFromDatabase} from "./Chat-Operations";
+export { getAllChatsFromDatabase } from "./Chat-Operations";
+export {deleteAllContactsFromDatabase} from "./Contact-Operations";
 
