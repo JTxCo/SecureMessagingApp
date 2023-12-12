@@ -16,5 +16,5 @@ async function fetchUsers() {
 }
 
 fetchChats();
-fetchContacts();
+// // fetchContacts();
 fetchUsers();
