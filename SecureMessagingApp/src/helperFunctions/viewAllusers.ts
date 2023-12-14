@@ -1,4 +1,4 @@
-import {User } from "./../Database";
+import {User } from "../Database";
 import { getAllUsersFromDatabase } from "../Database/User-Operations";
 
 async function fetchUsers() {

@@ -1,5 +1,5 @@
-import { input, AddContact, getAllContactsFromDatabase, Contact, getContactsFromDatabaseByName, GroupChat, IndividualChat, FSgetData, saveChatToDatabase, createChat, Message } from "./";
-import {  } from "./Database/Chat-Operations";
+import { input, AddContact, getAllContactsFromDatabase, Contact, getContactsFromDatabaseByName, GroupChat, IndividualChat, FSgetData, saveChatToDatabase, createChat, Message } from ".";
+import {  } from "../Database/Chat-Operations";
 
 
 export async function createChatOperation_CLI(): Promise<GroupChat|IndividualChat|undefined> {

@@ -8,7 +8,6 @@ export class Message {
     id: number
     text: string
     timestamp: Date
-    chatId: number
     status: MessageStatus
     senderUserId?: number
     senderContactId?: number
@@ -21,7 +20,6 @@ export class Message {
         this.id = id
         this.text = text
         this.timestamp = timestamp
-        this.chatId = chatID
         this.status = status
         this.chatID = chatID
         this.readyToSend = readyToSend

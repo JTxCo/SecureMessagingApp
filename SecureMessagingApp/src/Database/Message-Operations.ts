@@ -22,7 +22,7 @@ export async function saveMessageToDatabase(message: Message): Promise<void> {
         id: message.id,
         text: message.text,
         timestamp: message.timestamp,
-        chatId: message.chatId,
+        chatId: message.chatID,
         status: message.status.getStatus(),
         readyToSend: message.readyToSend,
         senderUserId: message.senderUserId,
@@ -34,7 +34,7 @@ export async function saveMessageToDatabase(message: Message): Promise<void> {
         id: message.id,
         text: message.text,
         timestamp: message.timestamp,
-        chatId: message.chatId,
+        chatId: message.chatID,
         status: message.status.getStatus(),
         senderContactId: message.senderContactId,
       },
@@ -84,11 +84,16 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
 
   //this will return every message froma chatId in the database. It will create a message object for each message in the database, and then return an array of messages
   export async function getMessagesFromDatabaseByChatId(chatId: number): Promise<Message[]> {
-    const messages = await prisma.message.findMany({ where: { chatId: chatId } });
-    
+    const messages = await prisma.message.findMany({ 
+      where: { chatId: chatId },
+      orderBy: {
+        timestamp: 'asc', // order by timestamp in ascending manner
+      },
+    });
+            
     return Promise.all(messages.map(async (message) => {
       const { user: senderUser, contact: senderContact } = await getUserAndContactFromMessage(message);
-    
+      
       return createMessage(
         message.id,
         message.text,
@@ -102,6 +107,7 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
     }));
   }
   
+  
 
   export async function updateMessageInDatabase(message: Message): Promise<void> {
     if(message.senderUserId) {
@@ -110,7 +116,7 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
         data: {
           text: message.text,
           timestamp: message.timestamp,
-          chatId: message.chatId,
+          chatId: message.chatID,
           status: message.status.getStatus(),
           senderUserId: message.senderUserId,
         },
@@ -121,7 +127,7 @@ export async function getMessageFromDatabase(id: number): Promise<Message | null
         data: {
           text: message.text,
           timestamp: message.timestamp,
-          chatId: message.chatId,
+          chatId: message.chatID,
           status: message.status.getStatus(),
           senderContactId: message.senderContactId,
         },

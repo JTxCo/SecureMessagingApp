@@ -1,32 +1,45 @@
-// server.ts
 import * as WebSocket from 'ws';
+import { Message, getUserFromDatabasByID, getContactFromDatabaseByID} from './Database';
+import { Network_Message } from './Model/Communication/network-Message';
 
-//const wss = new WebSocket.Server({ port: 3000});
-const wss = new WebSocket.Server({ port: 3000, host:  '0.0.0.0'});
-const clients: WebSocket[] = [];
+const ws = new WebSocket.Server({ port: 3000, host:  '0.0.0.0'});
+const clients: Map<string, WebSocket> = new Map();  // Maps usernames to WebSocket instances
 
-wss.on('connection', (ws: WebSocket) => {
-    clients.push(ws);
+ws.on('connection', (ws: WebSocket) => {
+    let currentUserName: string = "";
 
-    ws.on('message', (message: string) => {
-        try{    
-            const parsedMessage = JSON.parse(message);
-            console.log('Received: ', parsedMessage.message);
-            clients.forEach((client) => {
-                if (client !== ws){
-                    client.send(JSON.stringify(parsedMessage));
-                }
-            })
-        }
-        catch (error){
+    ws.on('message', (data: string) => {
+        try {
+            const message: Network_Message = JSON.parse(data);
+            currentUserName = message.senderUsername;
+            const recipientUsername = message.receiverUsername;
+            
+            console.log(`Received from ${currentUserName}: ${message.text}`);
+            
+            const recipientWs = clients.get(recipientUsername);
+            if (recipientWs) {
+                recipientWs.send(data); // Forward the message to the recipient
+            } else {
+                console.log(`User ${recipientUsername} is not connected.`);
+            }
+
+        } catch (error) {
             console.error('Error parsing message: ', error);
         }
     });
 
     ws.on('close', () => {
-        // Remove the disconnected client
-        clients.splice(clients.indexOf(ws), 1);
+        if (currentUserName) {
+            clients.delete(currentUserName);
+            console.log(`User ${currentUserName} disconnected`);
+        }
     });
+
+    // Store the WebSocket instance in the clients map using a unique identifier,
+    // such as the 'currentUserName' in this case
+    clients.set(currentUserName, ws);
+
+    console.log(`User ${currentUserName} connected`); // Display the username of the connecting device
 });
 
 console.log('WebSocket server is running on port 3000');

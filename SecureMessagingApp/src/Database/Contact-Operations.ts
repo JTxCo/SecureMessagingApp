@@ -58,9 +58,12 @@ export async function updateContactInDatabase(contact: Contact): Promise<void> {
     const contacts = await prisma.contact.findMany();
     return contacts.map((contact) => new Contact(contact.id, contact.userName, contact.firstName, contact.lastName, contact.publicKey, contact.userId));
   }
-
+  
   export async function deleteContactFromDatabase(contact: Contact): Promise<void> {
     await prisma.contact.delete({
       where: { id: contact.id },
     });
   }
+export async function deleteAllContactsFromDatabase(): Promise<void> {
+    await prisma.contact.deleteMany(); 
+}
