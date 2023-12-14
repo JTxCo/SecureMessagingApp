@@ -1,8 +1,8 @@
 // import { , getUserFromDatabasByID, Contact } from "./";
-import { getUserChoice } from './commandLine'; // Import the function from commandLine.ts
-import { User, checkPassword, createUser, comparePasswords, saveUserToDatabase, registerUser, getUserFromDatabasByUsername, input} from './';
-import {saveData} from "./"
-import { FSsaveData } from './';
+import { getUserChoice } from './Main-commandLine'; // Import the function from commandLine.ts
+import { User, checkPassword, createUser, comparePasswords, saveUserToDatabase, registerUser, getUserFromDatabasByUsername, input} from '.';
+import {saveData} from "."
+import { FSsaveData } from '.';
   
   
   

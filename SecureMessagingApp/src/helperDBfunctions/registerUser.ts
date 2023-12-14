@@ -1,4 +1,4 @@
-import { User, registerUser, getUserFromDatabasByID } from "..";
+import { User, registerUser, getUserFromDatabasByID } from "../Controller";
 import { getAllUsersFromDatabase } from "../Database/User-Operations";
 console.log('Welcome to the messaging app!');
 async function initApp() {

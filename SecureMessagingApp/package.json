@@ -10,7 +10,9 @@
     "test": "jest",
     "begin": "tsc && node dist/src/login.js",
     "mjs-begin": "tsc && find dist -name '*.js' -exec rename 's/\\.js$/\\.mjs/' '{}' \\; && node dist/Model-Structure/Model.mjs",
-    "delete users" : "node dist"
+    "delete users": "node dist",
+    "server" :"tsc && node dist/src/server.js",
+    "user" : "tsc && node dist/src/user.js"
   },
   "dependencies": {
     "@noble/curves": "^1.2.0",
@@ -26,6 +28,7 @@
     "json5": "^2.2.3",
     "node-fetch": "^3.3.2",
     "react": "18.2.0",
+    "react-native-webrtc": "^118.0.0",
     "ws": "^8.14.2"
   },
   "devDependencies": {

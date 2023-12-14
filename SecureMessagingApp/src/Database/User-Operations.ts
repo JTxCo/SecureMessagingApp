@@ -1,6 +1,6 @@
 // ...
 
-import { hashPassword } from './../Model-Structure/Security/HashingPassword';
+import { hashPassword } from '../Model/Security/HashingPassword';
 import { User } from './User';
 import { SQLiteDBAccess } from './SqliteDBAccess';
 import bycrypt from 'bcryptjs';

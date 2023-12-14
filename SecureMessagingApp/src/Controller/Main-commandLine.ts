@@ -1,4 +1,4 @@
-import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, chatsClI, getUserFromDatabasByID} from './';
+import { createContact, saveContactToDatabase, getData, Contact, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, chatsClI, getUserFromDatabasByID} from '.';
 
 export function getUserChoice(): void {
   console.log('Welcome to the messaging app!');

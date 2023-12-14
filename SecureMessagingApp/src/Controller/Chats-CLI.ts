@@ -1,10 +1,10 @@
-import { createContact, saveContactToDatabase, getData, Contact, saveMessageToDatabase, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, createMessage } from './';
-import { createMessageStatus } from './Database/MessageStatus/MessageStatusFactory';
-import { Chat, User, Message, getUserFromDatabasByID } from './Database';
-import { getChatsFromDatabaseByUserId } from './Database/Chat-Operations';
+import { createContact, saveContactToDatabase, getData, Contact, saveMessageToDatabase, FSgetData, getAllContactsFromDatabase,  createChatOperation_CLI, input, AddContact, getAllChatsFromDatabase, createMessage } from '.';
+import { createMessageStatus } from '../Database/MessageStatus/MessageStatusFactory';
+import { Chat, User, Message, getUserFromDatabasByID } from '../Database';
+import { getChatsFromDatabaseByUserId } from '../Database/Chat-Operations';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import { getMessagesFromDatabaseByChatId } from './Database/Message-Operations';
-import { getContactFromDatabaseByID } from './Database/Contact-Operations';
+import { getMessagesFromDatabaseByChatId } from '../Database/Message-Operations';
+import { getContactFromDatabaseByID } from '../Database/Contact-Operations';
 export async function chatsClI(): Promise<void> {
     const chats = await getChatsFromDatabaseByUserId();
     chats.forEach((chat, index) => {
