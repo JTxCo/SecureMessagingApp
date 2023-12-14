@@ -12,7 +12,7 @@
     "mjs-begin": "tsc && find dist -name '*.js' -exec rename 's/\\.js$/\\.mjs/' '{}' \\; && node dist/Model-Structure/Model.mjs",
     "delete users": "node dist",
     "server" :"tsc && node dist/src/server.js",
-    "user" : "tsc && node dist/src/user.js"
+    "user" : "tsc && node dist/src/Model/Communication/wsClient.js"
   },
   "dependencies": {
     "@noble/curves": "^1.2.0",

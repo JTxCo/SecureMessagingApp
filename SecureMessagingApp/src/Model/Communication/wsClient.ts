@@ -59,7 +59,7 @@ const connect = (onNewMessage: (msg: Network_Message) => void) => {
   });
 };
 
-const sendMessage = (message: Message) => {
+const sendMessage = (message: Network_Message) => {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(message));
   } else {
