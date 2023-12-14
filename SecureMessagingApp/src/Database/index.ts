@@ -36,4 +36,5 @@ import { deleteAllContactsFromDatabase } from "./Contact-Operations";
 export {getChatFromDatabaseByChatId} from "./Chat-Operations";
 export { getAllChatsFromDatabase } from "./Chat-Operations";
 export {deleteAllContactsFromDatabase} from "./Contact-Operations";
+export{getContactFromDatabaseByID} from "./Contact-Operations";
 
